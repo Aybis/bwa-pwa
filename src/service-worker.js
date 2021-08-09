@@ -63,6 +63,7 @@ registerRoute(
   }),
 );
 
+// add cdn fonts to cache
 registerRoute(
   ({ url }) =>
     url.origin === 'https://fonts.googleapis.com' ||
@@ -72,6 +73,32 @@ registerRoute(
     plugins: [
       new ExpirationPlugin({
         maxAgeSeconds: 60 * 60 * 24 * 356,
+        maxEntries: 30,
+      }),
+    ],
+  }),
+);
+
+// add function for data from api to cache
+registerRoute(
+  ({ url }) => url.origin.includes('qorebase.io'),
+  new NetworkFirst({
+    cacheName: 'apidata',
+    plugins: [
+      new ExpirationPlugin({
+        maxAgeSeconds: 360,
+        maxEntries: 30,
+      }),
+    ],
+  }),
+);
+
+registerRoute(
+  ({ url }) => /\.(jpe?g|png)$/i.test(url.pathname),
+  new StaleWhileRevalidate({
+    cacheName: 'apiImage',
+    plugins: [
+      new ExpirationPlugin({
         maxEntries: 30,
       }),
     ],
