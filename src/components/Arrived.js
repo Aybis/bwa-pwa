@@ -16,9 +16,11 @@ export default function Arrived({ items }) {
         <div className="container mx-auto"></div>
         {/* <!-- <div className="overflow-hidden z-10"> --> */}
         <div className="flex -mx-4 flex-row relative">
-          {items.map((item, index) => (
-            <ArrivedItem key={index} item={item} />
-          ))}
+          {items ? (
+            items.map((item, index) => <ArrivedItem key={index} item={item} />)
+          ) : (
+            <p>Data kosong</p>
+          )}
         </div>
       </div>
       {/* </div> */}

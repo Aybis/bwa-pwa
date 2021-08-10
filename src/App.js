@@ -10,21 +10,25 @@ import Footer from 'components/Footer.js';
 function App() {
   const [items, setitems] = useState([]);
 
-  useEffect(function () {
-    (async function () {
-      const response = await fetch(
-        'https://prod-qore-app.qorebase.io/8ySrll0jkMkSJVk/allItems/rows?limit=7&offset=0&$order=asc',
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            accept: 'application/json',
-            'x-api-key': process.env.REACT_APP_API_KEY,
-          },
-        },
-      );
-      const { nodes } = await response.json();
-      setitems(nodes);
-    })();
+  const getDataApi = async () => {
+    await fetch('https://batikita.herokuapp.com/index.php/batik/all')
+      .then((response) => response.json())
+      .then((response) => {
+        setitems(response.hasil);
+        const script = document.createElement('script');
+        script.src = './js/carousel.js';
+        script.async = false;
+        document.body.appendChild(script);
+      });
+  };
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      getDataApi();
+    }, 300);
+    return () => {
+      clearTimeout(timeOut);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

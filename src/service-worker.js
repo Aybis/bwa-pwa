@@ -79,11 +79,25 @@ registerRoute(
   }),
 );
 
-// add function for data from api to cache
+// add function for data from api bwa to cache
 registerRoute(
   ({ url }) => url.origin.includes('qorebase.io'),
   new NetworkFirst({
     cacheName: 'apidata',
+    plugins: [
+      new ExpirationPlugin({
+        maxAgeSeconds: 360,
+        maxEntries: 30,
+      }),
+    ],
+  }),
+);
+
+// add function for data from api batik to cache
+registerRoute(
+  ({ url }) => url.origin.includes('batikita.herokuapp.com'),
+  new NetworkFirst({
+    cacheName: 'apiDataBatik',
     plugins: [
       new ExpirationPlugin({
         maxAgeSeconds: 360,

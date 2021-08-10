@@ -30,13 +30,14 @@ export default function ArrivedItem({ item }) {
           </div>
         </div>
         <img
-          src={item.image1}
+          src={item.link_batik}
+          loading="lazy"
           alt=""
           className="w-full h-full object-cover object-center"
         />
       </div>
-      <h5 className="text-lg font-semibold mt-4">{item.name}</h5>
-      <span className="">{numberFormat(item.price)}</span>
+      <h5 className="text-lg font-semibold mt-4">{item.nama_batik}</h5>
+      <span className="">{numberFormat(item.harga_tinggi)}</span>
       <a href="/details" className="stretched-link">
         {/* <!-- fake children --> */}
       </a>
