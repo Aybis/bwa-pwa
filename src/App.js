@@ -7,10 +7,12 @@ import AsideMenu from './components/AsideMenu';
 import Clients from './components/Clients.js';
 import Footer from 'components/Footer.js';
 import Offline from './components/Offline.js';
+import Splash from 'pages/Splash.js';
 
 function App() {
   const [items, setitems] = useState([]);
   const [isOffline, setisOffline] = useState(!navigator.onLine);
+  const [showSplashScreen, setshowSplashScreen] = useState(true);
 
   const handleOfflineStatus = () => {
     setisOffline(!navigator.onLine);
@@ -32,6 +34,11 @@ function App() {
     handleOfflineStatus();
     window.addEventListener('online', handleOfflineStatus);
     window.addEventListener('offline', handleOfflineStatus);
+
+    const timeLoading = setTimeout(() => {
+      setshowSplashScreen(false);
+    }, 1200);
+
     const timeOut = setTimeout(() => {
       getDataApi();
     }, 300);
@@ -40,11 +47,14 @@ function App() {
       window.removeEventListener('offline', handleOfflineStatus);
 
       clearTimeout(timeOut);
+      clearTimeout(timeLoading);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOffline]);
 
-  return (
+  return showSplashScreen ? (
+    <Splash />
+  ) : (
     <>
       {isOffline && <Offline />}
       <Header />
